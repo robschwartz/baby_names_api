@@ -1,11 +1,11 @@
 class BabyNamesController < ApplicationController
   def index
-    baby_names = BabyName.order("created_at DESC")
+    list = List.find_or_create_by(code: params["list_id"])
+    baby_names = list.baby_names.order("created_at DESC")
     render json: baby_names
   end
 
   def create
-
     baby_name = BabyName.create(baby_name_params)
     render json: baby_name
   end
@@ -18,6 +18,6 @@ class BabyNamesController < ApplicationController
 
   private
   def baby_name_params
-    params.require(:baby_name).permit(:name, :keep, :list_id)
+    params.require(:baby_name).permit(:name, :keep)
   end
 end
